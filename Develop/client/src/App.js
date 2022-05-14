@@ -7,8 +7,7 @@ import Navbar from './components/Navbar';
 function App() {
   return (
     <Router>
-      <>
-        <Navbar />
+      <Navbar />
         <Routes>
           <Route 
             path='/' 
@@ -23,7 +22,7 @@ function App() {
             element={<h1 className='display-2'>Wrong page!</h1>}
           />
         </Routes>
-      </>
+  
     </Router>
   );
 }
