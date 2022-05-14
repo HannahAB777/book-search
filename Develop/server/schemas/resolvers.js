@@ -1,28 +1,47 @@
-const { Tech, Matchup } = require('../models');
+const { Book, User } = require('../models');
+const {signToken} = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    tech: async () => {
-      return Tech.find({});
+    me: async (parent, args, context) => {
+        if(!context.user){
+          throw new Error("Please loggin to view");
+        }
+
+        const user = context.user;
+
+        const foundUser = await User.findOne({
+          _id: user._id,
+        });
+
+        if(!foundUser){
+          throw new Error ("User not found!");
+        }
+
+        return foundUser;
     },
-    matchups: async (parent, { _id }) => {
-      const params = _id ? { _id } : {};
-      return Matchup.find(params);
-    },
+   
   },
+
+
   Mutation: {
-    createMatchup: async (parent, args) => {
-      const matchup = await Matchup.create(args);
-      return matchup;
+    login: async (parent, args, context) =>{
+
+    }
+
+    addUser: async (parent, args, context) =>{
+
     },
-    createVote: async (parent, { _id, techNum }) => {
-      const vote = await Matchup.findOneAndUpdate(
-        { _id },
-        { $inc: { [`tech${techNum}_votes`]: 1 } },
-        { new: true }
-      );
-      return vote;
+
+    saveBook: async (parent, args, context) =>{
+
     },
+
+    removeBook: async (parent, args, context) =>{
+
+    },
+
+  
   },
 };
 
