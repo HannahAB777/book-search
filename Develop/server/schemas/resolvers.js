@@ -43,18 +43,20 @@ const resolvers = {
         
         return { token, user },
       
-    }
+    },
 
-    addUser: async (parent, args, context) =>{
-      async createUser({ body }, res) {
-        const user = await User.create(body);
+    addUser: async (parent, {username, email, password} ) =>{
+        
+      const user = await User.create(body);
     
         if (!user) {
-          return res.status(400).json({ message: 'Something is wrong!' });
+          throw new Error("oops! something went wrong!");
         }
+        
         const token = signToken(user);
-        res.json({ token, user });
-      },
+        
+        return { token, user };
+      
     },
 
     saveBook: async (parent, args, context) =>{
