@@ -59,35 +59,33 @@ const resolvers = {
       
     },
 
-    saveBook: async (parent, args, context) =>{
-      async saveBook({ user, body }, res) {
-        console.log(user);
+    saveBook: async (parent, {user, bookId}) =>{
+    
         try {
           const updatedUser = await User.findOneAndUpdate(
             { _id: user._id },
-            { $addToSet: { savedBooks: body } },
+            { $addToSet: { savedBooks: bookId } },
             { new: true, runValidators: true }
           );
-          return res.json(updatedUser);
+         
+          return updatedUser;
+
         } catch (err) {
-          console.log(err);
-          return res.status(400).json(err);
+          throw new Error ("Something's gone wrong");
         }
-      },
     },
 
-    removeBook: async (parent, args, context) =>{
-      async deleteBook({ user, params }, res) {
-        const updatedUser = await User.findOneAndUpdate(
+    removeBook: async (parent, {user, bookId }) =>{
+        
+      const updatedUser = await User.findOneAndUpdate(
           { _id: user._id },
-          { $pull: { savedBooks: { bookId: params.bookId } } },
+          { $pull: { savedBooks: { bookId: bookId } } },
           { new: true }
         );
         if (!updatedUser) {
           return res.status(404).json({ message: "Couldn't find user with this id!" });
         }
         return res.json(updatedUser);
-      },
     },
 
   
