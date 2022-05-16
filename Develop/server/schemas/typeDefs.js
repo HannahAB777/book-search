@@ -18,12 +18,11 @@ type User {
     savedBooks: [Book]
   }
 
-
-
 type Auth{
   token: String!
   user: User
 }
+
 type Query {
   me: User
 }
