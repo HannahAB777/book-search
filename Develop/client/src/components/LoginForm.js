@@ -1,8 +1,8 @@
 // see SignupForm.js for comments
 import React, { useState } from 'react';
-import {link} from "react-router-dom";
 import { Form, Button, Alert } from 'react-bootstrap';
 import {useMutation} from "@apollo/client";
+import {Link} from 'react-router-dom';
 
 import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
@@ -45,6 +45,11 @@ const LoginForm = (props) => {
   };
 
   return (
+    <> {data ? (
+      <p>
+        Success! You may now head <Link to="/">back to the homepage.</Link>
+      </p>
+    ) : (
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your login credentials!
@@ -81,6 +86,7 @@ const LoginForm = (props) => {
           Submit
         </Button>
       </Form>
+      </>
   );
 };
 
