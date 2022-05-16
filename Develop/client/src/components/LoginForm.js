@@ -45,11 +45,7 @@ const LoginForm = (props) => {
   };
 
   return (
-    <> {data ? (
-      <p>
-        Success! You may now head <Link to="/">back to the homepage.</Link>
-      </p>
-    ) : (
+    <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your login credentials!
