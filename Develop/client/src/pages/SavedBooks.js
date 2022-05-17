@@ -9,10 +9,12 @@ import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
-  const [getMe, { error, data }] = useQuery(QUERY_ME);
+  const [loading, data] = useQuery(QUERY_ME);
+  const [remove_book, {error}] = useMutation(REMOVE_BOOK);
 
+  userData = data?.me || [];
   // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+  const userDataLength = userData.length;
 
   useEffect(() => {
     const getUserData = async () => {
@@ -23,7 +25,7 @@ const SavedBooks = () => {
           return false;
         }
 
-        const response = await getMe(token);
+        const response = await QUERY_ME(token);
 
         if (!response.ok) {
           throw new Error('something went wrong!');
@@ -41,6 +43,7 @@ const SavedBooks = () => {
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
+    
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -48,14 +51,13 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
+      const response = await remove_book({
+        variables: {bookId},
+      });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
+      if (!bookId) {
+        throw new Error('no book found matching that ID!');
       }
-
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -64,7 +66,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
@@ -85,7 +87,7 @@ const SavedBooks = () => {
           {userData.savedBooks.map((book) => {
             return (
               <Card key={book.bookId} border='dark'>
-                {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
+                {book.image ? (<Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> ) : null}
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
