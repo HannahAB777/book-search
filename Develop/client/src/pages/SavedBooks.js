@@ -55,7 +55,7 @@ const SavedBooks = () => {
         variables: {bookId},
       });
 
-      if (!bookId) {
+      if (!response) {
         throw new Error('no book found matching that ID!');
       }
       // upon success, remove book's id from localStorage
@@ -68,7 +68,8 @@ const SavedBooks = () => {
   // if data isn't here yet, say so
   if (loading) {
     return <h2>LOADING...</h2>;
-  }
+  };
+
 
   return (
     <>
