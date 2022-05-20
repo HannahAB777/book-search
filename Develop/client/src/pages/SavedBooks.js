@@ -29,13 +29,11 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await remove_book({
+      const {data} = await remove_book({
         variables: { bookId },
       });
 
-      if (!response) {
-        throw new Error("no book found matching that ID!");
-      }
+    
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
