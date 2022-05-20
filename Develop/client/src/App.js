@@ -3,11 +3,32 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, HttpLink, InMemoryCache } from '@apollo/client';
+import {auth} from './utils/auth';
+
+// Construct our main GraphQL API endpoint
+const httpLink = new HttpLink({ uri: '/graphql' });
+
+const authLink = new ApolloLink((operation, forward) => {
+  // Retrieve the authorization token from local storage.
+  const token = localStorage.getItem('id_token');
+
+  // Use the setContext method to set the HTTP headers.
+  operation.setContext({
+    headers: {
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  });
+
+  // Call the next link in the middleware chain.
+  return forward(operation);
+});
+
 
 const client = new ApolloClient({
-  uri: '/graphql',
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  
 });
 
 function App() {
