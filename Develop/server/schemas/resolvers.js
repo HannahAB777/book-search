@@ -59,8 +59,7 @@ const resolvers = {
       context
     ) => {
       const user = context.user;
-      console.log(user);
-
+     
       const payload = { authors, description, title, image, link, bookId };
       try {
         const updatedUser = await User.findOneAndUpdate(
@@ -80,7 +79,7 @@ const resolvers = {
 
       const updatedUser = await User.findOneAndUpdate(
         { _id: user._id },
-        { $pull: { savedBooks: { bookId: bookId } } },
+        { $pull: { savedBooks: { _id: bookId } } },
         { new: true }
       );
       if (!updatedUser) {
