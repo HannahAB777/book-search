@@ -3,12 +3,17 @@
 
 ## Description
 
-the back end routes/frame work for a simple social media app, where users can connect as friends, share thoughts and react to those thoughts. made with the use of MONGODB, Mongoose, Express and Moment.js
+A book search and stroage application, where you can sign up, log in, save, store and deleted your searched books. made with the use of MONGODB, Mongoose, graphql, API, node.js, Express and react.
+
+you can fins the deployed app here: http://hannahs-mern-booksearch.herokuapp.com/
+
+apon opening the aplication will load as follows:
+![Google Book Search - Google Chrome 24_05_2022 12_32_56 PM](https://user-images.githubusercontent.com/93077324/169949700-2fdf7714-9ddb-4893-9fb9-8a827489dedd.png)
+
 
 ## Table of Contents (Optional)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Test](#test)
 - [Credits](#credits)
 - [License](#license)
 
@@ -18,11 +23,7 @@ to install open is VSCode and run npm install, the run npm start.
 
 ## Usage
 
-this backend can be incorperated into a simple social media front end where users can make friends, share thoughts and reactions.
-
-## Test
-
-to test routes for yourself use insomnia and follow along with the video below: https://drive.google.com/file/d/1FilCNZV_mM5a2fnrmTKus07WuwJ987Um/view
+can be used online to store your saved books or discover new books.
 
 ## Credits
 [https://github.com/HannahAB777/](https://github.com/HannahAB777/).
